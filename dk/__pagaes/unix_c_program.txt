@@ -1,0 +1,51 @@
+===== 文件IO =====
+5个常用函数：open、read、write、lseek 以及close
+
+参考文献
+  - Unix环境高级编程
+
+=== 数组/指针 ===
+柔性数组
+
+<file c myexample.c>
+#include <stdlib.h>
+#include <string.h>
+struct line {
+  int length;
+  char contents[0]; // C99的玩法是：char contents[]; 没有指定数组长度
+};
+int main(){
+  int this_length=10;
+  struct line *thisline = (struct line *)
+           malloc (sizeof (struct line) + this_length);
+  thisline->length = this_length;
+  memset(thisline->contents, 'a', this_length);
+  return 0;
+}
+</file> 
+
+union和struct类型的大小计算(字节对齐的细节和编译器实现相关)
+<file c szof.c>
+#include <stdio.h>
+union u1
+{
+	char a[9];
+	int b;
+};
+
+void main()
+{
+	printf("sizeof = %d bytes \n", sizeof(union u1));
+}
+</file> 
+成员a是char数组，对齐大小为1字节，成员b是int，对齐大小为4字节，所以U1对齐大小为4字节；分配给U1的实际大小既要是4字节的整数倍，又要不小于最大成员a的大小，即位4的整数倍又要大于9，所以实际分配的空间为12字节。
+若其中的int b改为double，则对齐为8，大小为16。
+
+[[Core Dump]]
+
+
+
+
+
+
+

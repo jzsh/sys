@@ -1,0 +1,28 @@
+#!/bin/sh
+
+start() {
+    /etc/init.d/isc-dhcp-server start
+}
+stop() {
+    /etc/init.d/isc-dhcp-server stop
+}
+restart() {
+	stop
+	start
+}
+
+# setting
+ifconfig eth0 10.0.0.138
+cp `pwd`/dhcpd.conf /etc/dhcp/dhcpd.conf
+
+
+if [ "$1" = start ]; then
+	start
+elif [ "$1" = stop ]; then
+	stop
+elif [ "$1" = restart ]; then
+	restart
+else
+	echo "Usage: $0 start/stop/restart"
+fi
+

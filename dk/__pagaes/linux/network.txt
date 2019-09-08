@@ -1,0 +1,25 @@
+=== ifconfig, route, ip ===
+
+====路由修改 route====
+  [root@www ~]# route [-nee]
+  [root@www ~]# route add [-net|-host] [网域或主机] netmask [mask] [gw|dev]
+  [root@www ~]# route del [-net|-host] [网域或主机] netmask [mask] [gw|dev]
+
+  参数：
+  -n  ：不要使用通讯协议或主机名，直接使用 IP 或 port number；
+  -ee ：使用更详细的信息来显示
+
+  add/del ：增加/删除一条路由；
+  -net    ：表示后面接的路由为一个网域；
+  -host   ：表示后面接的为连接到单部主机的路由；
+  netmask ：与网域有关，可以设定 netmask 决定网域的大小；
+  gw      ：gateway 的简写，后续接的是 IP 的数值喔，与 dev 不同；
+  dev     ：如果只是要指定由那一块网络卡联机出去，则使用这个设定，后面接 eth0 等
+
+== 简单例子：==
+添加一条路由
+  route add -net 192.168.200.0 netmask 255.255.255.0 gw 192.168.200.254
+添加预设路由
+  route add default gw 192.168.1.250
+
+[[:icmp|ICMP-type对应表]]

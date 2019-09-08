@@ -1,0 +1,16 @@
+====== vmware ======
+====== qemu ======
+  * 下载安装busybox
+  wget https://busybox.net/downloads/busybox-1.20.2.tar.bz2
+
+快捷键
+  C-a x 退出qemu
+  C-a c 进入qemu命令行
+  
+Reference:
+
+  * [[http://blog.csdn.net/linyt/article/details/42504975|从零使用qemu模拟器搭建arm运行环境]]  
+  * [[https://www.cnblogs.com/hellogc/p/7482066.html|使用 qemu 搭建内核开发环境]]
+  * [[http://blog.csdn.net/aggresss/article/details/74834155|虚拟机就是开发板]]
+  * [[http://blog.csdn.net/rickleaf/article/details/6582672|QEMU 虚拟开发板]]
+  * [[http://blog.csdn.net/tinylab/article/details/45230165|利用qemu模拟嵌入式系统制作全过程]]

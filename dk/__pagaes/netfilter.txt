@@ -1,0 +1,11 @@
+References:\\
+[[http://blog.sina.com.cn/s/blog_67bccccb0100yr92.html]]\\
+[[http://blog.chinaunix.net/uid-23069658-id-3160506.html]]\\
+[[http://www.zsythink.net/archives/1199]]\\
+[[http://www.cnblogs.com/qq78292959/archive/2012/06/06/2538358.html|sk_buff结构分析]]\\
+[[http://man.linuxde.net/hping3|hping3命令]]\\
+[[http://blog.csdn.net/cheng_fangang/article/details/8691313|解析Linux下Netfilter & iptables：开发一个match模块]]
+[[http://inai.de/documents/Netfilter_Modules.pdf|Writing Netfilter modules -Jan Engelhardt, Nicolas Boulianerev. July 3, 2012]]
+
+
+[[FAQ:FAQ]]

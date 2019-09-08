@@ -1,0 +1,5 @@
+Host * # alias name
+Hostname ssh.github.com
+User git
+Port 443
+ProxyCommand corkscrew 127.0.0.1 3128 %h %p

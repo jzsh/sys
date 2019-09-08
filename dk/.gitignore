@@ -1,0 +1,7 @@
+dokuwiki/data/cache/*
+dokuwiki/data/attic/*
+dokuwiki/data/meta/**/*.meta
+dokuwiki/data/meta/*.changes
+!dokuwiki/data/cache/.gitkeep
+!dokuwiki/data/index/.gitkeep
+!dokuwiki/data/locks/.gitkeep

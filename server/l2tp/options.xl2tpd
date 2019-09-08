@@ -1,0 +1,5 @@
+require-chap
+ms-dns 172.17.92.188
+lcp-echo-interval 10
+lcp-echo-failure 3
+

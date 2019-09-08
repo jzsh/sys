@@ -1,0 +1,8 @@
+#!/bin/sh
+
+DIR="$( cd "$( dirname "$0"  )" && pwd  )"
+# DIR=$(dirname $(readlink -f "$0"))
+
+[ ! -f ~/.bashrc ] && mv ~/.bashrc ~/.bashrc.bak
+ln -sf $DIR/bashrc ~/.bashrc
+ln -sf $DIR/git-completion.bash ~/.git-completion.bash

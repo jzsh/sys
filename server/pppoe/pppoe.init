@@ -1,0 +1,26 @@
+#!/bin/sh
+
+start() {
+	pppoe-server -I eth0 -L 66.66.66.138 -R 66.66.66.100 -N 20
+    echo "start pppoer server.."
+    echo user name : `cat /etc/ppp/chap-secrets | grep -v "^#"| grep -v ^$ | cut -f 1 -d " "`
+    echo password : `cat /etc/ppp/chap-secrets | grep -v "^#"| grep -v ^$ | cut -f 3 -d " "`
+}
+
+stop() {
+	killall pppoe-server
+}
+
+restart() {
+	stop
+	start
+}
+if [ "$1" = start ]; then
+	start
+elif [ "$1" = stop ]; then
+	stop
+elif [ "$1" = restart ]; then
+	restart
+else
+	echo "Usage: $0 start/stop/restart"
+fi

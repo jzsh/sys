@@ -1,0 +1,10 @@
+===== Git =====
+查看某个文件修改历史：
+  git log -p file
+重置为与远程一致：
+  git reset --hard origin/master
+
+显示所有的tag号
+  git tag
+切换到某一个版本
+  git checkout TAGID

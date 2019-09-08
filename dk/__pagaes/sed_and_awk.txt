@@ -1,0 +1,5 @@
+  * sed -r可以利用群组的概念对文本行进行分域，\1 \2表示第几个域，可完成域的交换
+<sxh shell>
+$ echo "abcd egh:" | sed -r 's/^([a-zA-Z]*) ([a-zA-Z]*)(:.*)/\2 \1\3/'
+egh abcd:
+</sxh>

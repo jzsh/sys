@@ -1,0 +1,5 @@
+  * [[wiki:welcome|]]
+  * [[wiki:syntax|]]
+  * [[wiki:syntax_cn|格式化语法]]
+  * [[wiki:dokuwiki|DokuWiki]]
+  * [[wiki:plugin|常用插件]]

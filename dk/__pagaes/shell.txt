@@ -1,0 +1,164 @@
+[[sed and awk |sed & awk]]
+
+''cd -P <symlink>'' or ''pwd -P <symlink>'' will take you to the symlink's real directory instead of the relative directory
+
+==== while循环中全局变量的赋值的问题 ====
+
+<sxh shell>
+#!/bin/sh
+
+errcode=0 # global var
+func() {
+        errcode=10
+}
+
+#1 changed in func()
+func
+echo "$errcode"
+
+#2 no changed in while loop as usage of pipe
+cat m.txt | while read $m; do
+	errcode=127
+done
+echo "$errcode"
+
+#3 changed in while loop
+while read $m; do
+	errcode=127
+done < m.txt
+echo "$errcode"
+</sxh>
+
+#2原因：当启用管道时，会生成一个subshell；while循环的代码在subshell中执行，那么变量也是在subshell中被修改，
+while循环结束后，回到主shell，变量没有被修改。
+
+====cron====
+基本格式 : 
+  *　　*　　*　　*　　*　　command 
+  分　 时　 日　 月　 周　 命令 
+第1列表示分钟1～59 每分钟用*或者 */1表示 \\
+第2列表示小时1～23（0表示0点） \\
+第3列表示日期1～31 \\
+第4列表示月份1～12 \\
+第5列标识号星期0～6（0表示星期天） \\
+第6列要运行的命令 
+
+crontab文件的一些例子： 
+  30 21 * * * /usr/local/etc/rc.d/lighttpd restart 
+上面的例子表示每晚的21:30重启apache。 
+  45 4 1,10,22 * * /usr/local/etc/rc.d/lighttpd restart 
+上面的例子表示每月1、10、22日的4 : 45重启apache。 
+  10 1 * * 6,0 /usr/local/etc/rc.d/lighttpd restart 
+上面的例子表示每周六、周日的1 : 10重启apache。 
+  0,30 18-23 * * * /usr/local/etc/rc.d/lighttpd restart 
+上面的例子表示在每天18 : 00至23 : 00之间每隔30分钟重启apache。 
+  0 23 * * 6 /usr/local/etc/rc.d/lighttpd restart 
+上面的例子表示每星期六的11 : 00 pm重启apache。 
+  0 */1 * * * /usr/local/etc/rc.d/lighttpd restart 
+每一小时重启apache 
+  0 23-7/1 * * * /usr/local/etc/rc.d/lighttpd restart 
+晚上11点到早上7点之间，每隔一小时重启apache 
+  0 11 4 * mon-wed /usr/local/etc/rc.d/lighttpd restart 
+每月的4号与每周一到周三的11点重启apache 
+  0 4 1 jan * /usr/local/etc/rc.d/lighttpd restart 
+一月一号的4点重启apache 
+
+
+==== shell中$(( ))、$( )与${ }的区别 ====
+
+[[http://blog.sina.com.cn/s/blog_4da051a60102uwda.html]]
+
+
+  * 命令替换
+在bash中，''$( )''与''` `''（反引号）都是用来作命令替换的。
+命令替换与变量替换差不多，都是用来重组命令行的，先完成引号里的命令行，然后将其结果替换出来，再重组成新的命令行。
+
+exp 1
+
+  $ echo today is $(date "+%Y-%m-%d")
+  today is 2014-07-01
+
+''$( )''与''` `''
+在操作上，这两者都是达到相应的效果，但是建议使用$( )，理由如下：
+
+注意'' ` ''不要和'' ' ''搞混乱了。
+
+exp 2
+
+# 将cmd1执行结果作为cmd2参数，再将cmd2结果作为cmd3的参数
+  cmd3 $(cmd2 $(cmd1))
+
+# 如果是用反引号，直接引用是不行的，还需要作跳脱处理
+  cmd3 `cmd2 \`cmd1\``
+
+
+  * ${ }变量替换
+一般情况下，$var与${var}是没有区别的，但是用${ }会比较精确的界定变量名称的范围
+
+
+  $ A=B
+  $ echo ${A}B
+  BB
+
+  * %%$(( ))%%
+  - 整数运算
+
+bash中整数运算符号
+
+符号    功能
++ - * / 分别为加、减、乘、除
+%   余数运算
+& | ^ ! 分别为“AND、OR、XOR、NOT”
+%%在 $(( )) 中的变量名称,可于其前面加 $ 符号来替换,也可以不用。%%
+
+
+  $ a=5;b=7;c=2
+  $ echo $((a+b*c))
+  19
+  $ echo $(($a+$b*$c))
+  19
+
+  - 进制转换
+%%$(( ))可以将其他进制转成十进制数显示出来。用法如下：%%
+%%echo $((N#xx))%%
+其中，N为进制，xx为该进制下某个数值，命令执行后可以得到该进制数转成十进制后的值。
+
+
+  $ echo $((2#110))   # 二进制转十进制
+  6
+  $ echo $((16#2a))   ＃ 十六进制转十进制
+  42
+  $ echo $((8#11))    ＃ 八进制转十进制
+  9
+
+  - 重定义变量值
+
+  $ a=5;b=7
+  $ ((a++));echo $a
+  6
+  $ ((a--));echo $a
+  5
+  $ ((a<b));echo $?
+  0
+
+？
+==== debug shell script ====
+
+''$0''
+    脚本名字
+''$LINENO''
+    代表shell脚本的当前行号，类似于C语言中的内置宏__LINE__
+
+''$FUNCNAME''
+　　函数的名字，类似于C语言中的内置宏__func__,但宏__func__只能代表当前所在的函数名，而
+$FUNCNAME的功能更强大，它是一个数组变量，其中包含了整个调用链上所有的函数的名字，故变>量${FUNCNAME[0]}代表shell脚本当前正在执行的函数的名字，而变量${FUNCNAME[1]}则代表调用>函数${FUNCNAME[0]}的函数的名字，余者可以依此类推。
+
+[[http://blog.csdn.net/u013516966/article/details/50913770]]
+[[https://www.cyberciti.biz/tips/howto-linux-unix-bash-shell-setup-prompt.html]]
+
+makefile 和 shell对于花括号扩展不一样
+  mkdir -p test/{a b}
+make里的SHELL变量为/bin/sh,这个连接的shell可能不支持花括号拓展
+
+https://www.zhihu.com/question/21336174/answer/44282317?utm_source=org.mozilla.firefox&utm_medium=social
+

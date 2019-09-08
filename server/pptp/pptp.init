@@ -1,0 +1,32 @@
+#!/bin/sh
+
+start() {
+    /etc/init.d/pptpd start
+    echo "start pptp server.."
+    echo user name : `cat /etc/ppp/chap-secrets | grep -v "^#"| grep -v ^$ | cut -f 1 -d " "`
+    echo password : `cat /etc/ppp/chap-secrets | grep -v "^#"| grep -v ^$ | cut -f 3 -d " "`
+}
+
+stop() {
+    killall -9 pptpd
+}
+
+restart() {
+	stop
+	start
+}
+
+
+cp ./pptpd.conf /etc/
+cp ./pptpd-options /etc/ppp/
+
+if [ "$1" = start ]; then
+	start
+elif [ "$1" = stop ]; then
+	stop
+elif [ "$1" = restart ]; then
+	restart
+else
+	echo "Usage: $0 start/stop/restart"
+fi
+

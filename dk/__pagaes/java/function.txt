@@ -1,0 +1,44 @@
+====== java值传递 ======
+
+在java中，不允许程序员选择值传递还是地址传递各个参数，基本类型总是按值传递。对于对象来说，是将对象的引用也就是副本传递给了方法，在方法中只有对对象进行修改才能影响该对象的值，操作对象的引用时是无法影响对象。
+
+现在说说数组：如果将单个基本类型数组的元素传递给方法，并在方法中对 其进行修改，则在被调用方法结束执行时，该元素中存储的并不是修改后的值，因为这种元素是按值传递，如果传递的是数组的引用，则对数组元素的后续修改可以 在原始数组中反映出来（因为数组本身就是个对象，int[] a = new int[2];，这里面的int是数组元素的类型，而数组元素的修改是操作对象）。
+
+<code>
+public class Test{
+     
+    String str = new String("good");
+    char[] ch = {'a','b','c'};
+    int i = 10;
+    public void change(String str,char[] ch,int i){
+     
+        str = "test ok";
+        ch[0] = 'g';
+        i++;   
+    }
+     
+    public static void main(String[] args){
+     
+        Test tt = new Test();
+        tt.change(tt.str,tt.ch,tt.i);
+        System.out.println(tt.i);
+        System.out.print(tt.str+" and ");
+        System.out.println(tt.ch);    
+    }
+}
+</code>
+
+str是String类型的引用，i是基本类型变量，ch是数组名，也是数组对象的引用
+
+在chang()方法里，str="test ok"，是一个新的对象把首地址放在引用变量str上；
+
+而ch[0]='g';因为传的是数组的引用，而此时ch[0]='g';是对数组元素的操作，能修改源数组的内容；
+
+i是整型值，只是把值copy了一份给方法，在方法的变化是不改变的源i的。
+
+所以结果是：
+
+10
+
+good and gbc
+

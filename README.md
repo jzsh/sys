@@ -1,0 +1,1 @@
+debian-like system configuration

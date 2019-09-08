@@ -1,0 +1,495 @@
+== 格式化语法 ==
+[[doku>DokuWiki]]**支持一些简单的标记语言**，以尽可能使文档的可读性更高。本页包含了您在编辑页面时可能用到所有语法的说明。如果需要查看本页源码，只需要点击页面顶部或者底部的//编辑本页//按钮。如果您想做一些尝试，那么可以使用[[playground:playground|Playground]]来尽情挥洒。通过[[doku>zh:toolbar|快捷按钮]]，您可以更方便地使用这些标记。 
+
+===== 基本字体格式 =====
+DokuWiki支持**粗体**，//斜体//，__下划线__以及''等宽体''等格式。当然，您可以**__//''混合使用''//__**这些格式。
+
+  DokuWiki支持**粗体**，//斜体//，__下划线__以及''等宽体''等格式。
+  当然，您可以**__//''混合使用''//__**这些格式。
+
+您也可以使用<sub>下标</sub>和<sup>上标</sup>。
+
+  您也可以使用<sub>下标</sub>和<sup>上标</sup>。
+
+同时也可以使用<del>删除线</del>标记某些信息。
+
+  同时也可以使用<del>删除线</del>标记某些信息。
+
+===== 段落 =====
+**段落**是由空行所建立的。如果您想**强制换行**而不建立段落，您可以使用两个连续的反斜杠接空格或回车作为标记。请看样例：
+
+这是一些有着换行标记的文字。\\ 请注意
+双反斜杠只在回车符之前\\
+或者接在\\ 一个空格之前的时候才有效。\\而这样就并不起作用。
+
+  这是一些有着换行标记的文字。\\ 请注意
+  双反斜杠只在回车符之前\\
+  或者接在\\ 一个空格之前的时候才有效。\\而这样就并不起作用。
+
+请仅在必须的时候使用强制换行标记。
+===== 链接 =====
+
+DokuWiki支持以多种形式创建链接。
+
+==== 外部链接 ====
+
+外部链接会被自动地识别：http://www.google.com，或者简单地写作www.google.com——您也可以设置链接文本：[[http://www.google.com|此链接指向google]]。类似这样的电子邮件地址：<andi@splitbrain.org>也可以被识别。
+
+  DokuWiki支持以多种形式创建链接。外部链接会被自动地识别：
+  http://www.google.com，或者简单地写作www.google.com
+  ——您也可以设置链接文本：[[http://www.google.com|此链接指向google]]。
+  类似这样的电子邮件地址：<andi@splitbrain.org>也可以被识别。
+
+==== 内部链接 ====
+
+内部链接可以用方括号创建。您可以只给出[[:页面名]]，或附加[[:页面名|链接文本]]。
+
+  内部链接可以用方括号创建。您可以只给出
+  [[页面名]]，或附加[[页面名|链接文本]]。
+
+[[doku>pagename|Wiki的页面名]]会被自动地转换为小写字母，并且不允许使用特殊字符。
+
+您可以通过在页面名中添加冒号的方式来使用[[某目录:命名空间]]。
+
+  您可以通过在页面名中添加冒号的方式来使用[[某目录:命名空间]]。
+
+如果您需要更多有关“命名空间（namespaces）”的详细信息，请参见[[doku>namespaces]]。
+
+链接到一个特定章节也是可能的。只需要在#号后面加上章节的名称。这是一个指向[[:syntax#外部链接|本节]]的链接。
+
+  这是一个指向[[syntax#内部链接|本节]]的链接。
+
+注意：
+  * 指向[[:syntax|已存在页面]]的和[[:nonexisting|不存在页面]]的链接，其外观是不同的。
+  * 默认情况下，DokuWiki不使用[[wp>CamelCase]]来自动建立链接。但这一设定可以在[[doku>config|配置文件]]中激活。提示：如果DokuWiki显示为链接，则说明已激活。
+  * 当一节的标题改变时，它的书签也会改变。因此，请不要过于依赖章节链接。
+
+==== Wiki间链接 ====
+
+DokuWiki支持[[doku>Interwiki]]（Wiki间链接）。他们是到其他Wiki的快速链接。例如，这是一个指向Wikipedia上Wiki条目的链接：[[wp>Wiki]]。
+
+  DokuWiki支持[[doku>Interwiki]]（Wiki间链接）。他们是到其他Wiki的快速链接。
+  例如，这是一个指向Wikipedia上Wiki条目的链接：[[wp>Wiki]]
+==== Windows共享文件夹 ====
+
+Windows共享文件夹，例如[[\\server\share|这个]]也可以被识别。请注意，这只在企业[[wp>Intranet|内部网]]等局域网环境中才有意义。
+
+  Windows共享文件夹，例如[[\\server\share|这个]]也可以被识别。
+
+注：
+
+  * 出于安全原因，只有在微软IE浏览器上才能够直接访问Windows共享文件夹（并且仅在“本地区域”）。
+  * 对于Mozilla和Firefox可以通过[[http://kb.mozillazine.org/Firefox_:_Issues_:_Links_to_Local_Pages_Don%27t_Work|Mozilla知识库]]中提到的不同解决方法启用。但是，打开一个windows共享文件夹时仍然会有一个JavaScript告警。要去除这个警告（为所有用户），把下面一行放入"conf/userscript.js"中；
+
+  LANG.nosmblinks = '';
+==== 图像链接 ====
+
+您也可以通过结合链接和[[#图像和其它文件|图像]]（见下文）的语法，用图像来链接到一个内部或者外部的页面。如下所示：
+
+  [[http://www.php.net|{{wiki:dokuwiki-128.png}}]]
+
+[[http://www.php.net|{{wiki:dokuwiki-128.png}}]]
+
+请注意：图像的格式化语法是链接文本唯一接受的格式化语法。
+
+所有的图像和链接语法都是支持的（包括图像大小调整、内部和外部的图像与链接以及wiki内链接）。
+
+===== 脚注 =====
+
+您可以使用两个连续小括号来添加脚注((这是一个脚注))。
+
+  您可以使用两个连续小括号来添加脚注((这是一个脚注))。
+
+===== 分节 =====
+
+您可以使用多达5层的标题来组织您的内容。如果您使用了三个以上的标题，将自动生成目录——这可以通过在页面加入''<nowiki>~~NOTOC~~</nowiki>''字样来禁用。
+
+==== H3标题 ====
+=== H4标题 ===
+== H5标题 ==
+
+  ==== H3标题 ====
+  === H4标题 ===
+  == H5标题 ==
+
+您可以通过4个以上连续的“-”号来创建一条水平分割线：
+
+----
+
+
+===== 图像和其它文件 =====
+
+您可以用两个大括号在页面中加入外部或内部的[[doku>images|图像]]。您还可以指定它们的大小。
+
+原始大小：                        {{wiki:dokuwiki-128.png}}
+
+
+指定宽度：                        {{wiki:dokuwiki-128.png?50}}
+
+指定宽度和高度((当指定的长宽比与图像的不一致，在调整图像大小前，其将先被裁剪到新的比例))：                  {{wiki:dokuwiki-128.png?200x50}}
+
+重新指定宽度和高度的外部图像：    {{http://de3.php.net/images/php.gif?200x50}}
+
+  原始大小：                        {{wiki:dokuwiki-128.png}}
+  指定宽度：                        {{wiki:dokuwiki-128.png?50}}
+  指定宽度和高度：                  {{wiki:dokuwiki-128.png?200*50}}
+  重新指定宽度和高度的外部图像：    {{http://de3.php.net/images/php.gif?200x50}}
+
+通过使用左空格或右空格，您可以选择对齐方式。
+
+{{ wiki:dokuwiki-128.png}}
+
+{{wiki:dokuwiki-128.png }}
+
+{{ wiki:dokuwiki-128.png }}
+
+  {{ wiki:dokuwiki-128.png}}
+  {{wiki:dokuwiki-128.png }}
+  {{ wiki:dokuwiki-128.png }}
+
+当然，您也可以指定一个标题（多数浏览器显示为提示文本((鼠标悬停可以看到))）。
+
+{{ wiki:dokuwiki-128.png |这是标题}}
+
+  {{ wiki:dokuwiki-128.png |这是标题}}
+
+
+对于将图像链接到其他页面，参见上面的[[#图像链接]]。
+
+==== 支持媒体格式 ====
+
+DokuWiki可以支持以下格式的媒体文件。
+
+| 图像 | ''gif'', ''jpg'', ''png''  |
+| 动画 | ''webm'', ''ogv'', ''mp4'' |
+| 音频 | ''ogg'', ''mp3'', ''wav''  |
+| Flash | ''swf''                    |
+
+如果您指定了一个格式不受支持的文件，那么它将被显示为一个链接。
+在链接后加入''?linkonly''，那么它将仅仅在行内显示媒体文件的链接。
+
+  {{wiki:dokuwiki-128.png?linkonly}}
+
+{{wiki:dokuwiki-128.png?linkonly}} 这里只是图像的链接。
+
+===== 列表 =====
+
+DokuWiki支持带编号或不带编号的列表。要创建列表，在文字前加入两个空格，然后使用''*''标记不带编号的列表，用''-''标记带编号的列表。
+
+  * 这是一个列表
+  * 第二项
+    * 您可以有不同的层次
+  * 另一项
+
+  - 带编号的列表
+  - 另一项
+    - 用缩进表示更深的层
+  - 就这样
+
+<code>
+  * 这是一个列表
+  * 第二项
+    * 您可以有不同的层次
+  * 另一项
+
+  - 带编号的列表
+  - 另一项
+    - 用缩进表示更深的层
+  - 就这样
+</code>
+
+===== 文本转换 =====
+
+DokuWiki可以将预定义的字符或者字符串转换成图像、其他文本或HTML。
+
+文本转换为图像主要用于表情符号。文本到HTML的转换用于排版的字符替换，但也可以配置为使用其他HTML。
+==== 文本到图像的转换 ====
+
+DokuWiki会将一些常用的 [[wp>emoticon|表情符号]]转换为相应图像。这些[[doku>Smileys|表情符号]]和其他图像可以被配置和扩展。这是DokuWiki中包含的表情符号的概况：
+
+  * 8-) %%  8-)  %%
+  * 8-O %%  8-O  %%
+  * :-( %%  :-(  %%
+  * :-) %%  :-)  %%
+  * =)  %%  =)   %%
+  * :-/ %%  :-/  %%
+  * :-\ %%  :-\  %%
+  * :-? %%  :-?  %%
+  * :-D %%  :-D  %%
+  * :-P %%  :-P  %%
+  * :-O %%  :-O  %%
+  * :-X %%  :-X  %%
+  * :-| %%  :-|  %%
+  * ;-) %%  ;-)  %%
+  * ^_^ %%  ^_^  %%
+  * :?: %%  :?:  %%
+  * :!: %%  :!:  %%
+  * LOL %%  LOL  %%
+  * FIXME %%  FIXME %%
+  * DELETEME %% DELETEME %%
+
+
+==== 文本到HTML的转换 ====
+
+印刷：[[:dokuwiki]]可以将特定字符转换为印刷时所用的样式。这是可识别的字符示例。
+
+-> <- <-> => <= <=> >> << -- --- 640x480 (c) (tm) (r)
+"He thought 'It's a man's world'..."
+
+<code>
+-> <- <-> => <= <=> >> << -- --- 640x480 (c) (tm) (r)
+"He thought 'It's a man's world'..."
+</code>
+
+同样的做法可以产生任何类型的HTML，只需要添加到[[doku>entities|模式文件]]
+
+这里有三个例外，它们并非来自模式文件：乘号(640x480)、'单引号'和"双引号"。它们可以通过[[doku>config:typography|配置选项]]关闭。
+
+===== 引用 =====
+
+有时您想将某些文本标记为回复或者评论。您可以使用下列语法：
+
+<code>
+我想我们应该做这件事
+
+> 不，我们不应该
+
+>> 好吧，我说我们应该
+
+> 真的？
+
+>> 是！
+
+>>> 那来做吧！
+</code>
+
+我想我们应该做这件事
+
+> 不，我们不应该
+
+>> 好吧，我说我们应该
+
+> 真的？
+
+>> 是！
+
+>>> 那来做吧！
+
+===== 表格 =====
+
+DokuWiki支持用简单的语法创建表格。 
+
+^ 标题1        ^ 标题2         ^ 标题3       ^
+| (1,1)        | (1,2)         | (1,3)       |
+| (2,1)        | 一些跨列合并（注意两条竖线）   ||
+| (3,1)        | (3,2)         | (3,3)       |
+
+表格的每一行都以分隔符 ''|'' （普通行）或者 ''^'' （标题行）作为开头和结束。
+
+  ^ 标题1        ^ 标题2         ^ 标题3       ^
+  | (1,1)        | (1,2)         | (1,3)       |
+  | (2,1)        | 一些跨列合并（注意两条竖线）   ||
+  | (3,1)        | (3,2)         | (3,3)       |
+
+要水平合并单元格，只需要将后一个单元格设置为空即可，如上面演示的一样。请确保每一行有相同数量的单元格分隔符！
+
+竖直的标题列也是可以实现的：
+
+|      ^ 标题1          ^ 标题2    ^
+^ 标题3  | (1,2) (1,3)          ||
+^ 标题4  | 不再合并单元格      |        |
+^ 标题5  | (2,2)        | (2,3)  |
+
+可以看到，单元格前面的分隔符决定了单元格的格式。
+
+  |          ^ 标题1          ^ 标题2          ^
+  ^ 标题3    | (1,2)          | (1,3)          |
+  ^ 标题4    | 不再合并单元格 |                |
+  ^ 标题5    | (2,2)          | (2,3)          |
+
+跨行合并单元格(垂直合并单元格)也是可以实现的，通过在下面的相邻单元格输入'':::''可以把两个相邻行的单元格合并。
+
+^ 标题1  ^ 标题 2               ^ 标题 3    ^
+|(1,1)| 对该单元垂直合并        |(1,3)|
+|(2,1)| :::                  |(2,3)|
+|(3,1)| :::                  |(2,3)|
+
+除跨行合并语法外，单元格中不能包含其他任何内容。
+
+  ^ 标题1 ^ 标题 2              ^ 标题 3  ^
+  |(1,1)| 对该单元垂直合并       |(1,3)|
+  |(2,1)| :::                  |(2,3)|
+  |(3,1)| :::                  |(2,3)|
+
+您可以对齐表格的文字。只需在文本的相反方向添加至少两个空格：如果需要右对齐，在左边添加两个空格；反之，则在右边添加。在两边均添加空格可以实现居中对齐。
+
+^  有对齐的表格                                     |||
+|           右对齐 |  居中           | 左对齐           |
+| 左对齐           |           右对齐 |  居中           |
+| xxxxxxxxxxxx  | xxxxxxxxxxxx  | xxxxxxxxxxxx  |
+
+下面是源文件中的样子：
+
+  ^           有对齐的表格                   ^^^
+  |        右对齐|     居中     |左对齐        |
+  |左对齐        |        右对齐|     居中     |
+  | xxxxxxxxxxxx | xxxxxxxxxxxx | xxxxxxxxxxxx |
+
+注意：不支持垂直对齐。
+
+===== 无格式化 =====
+
+如果您需要文本完全显示为它键入的样子（没有任何格式化），用''%%<nowiki>%%''标签包围这个区域，或更简单地用两个百分号''<nowiki>%%</nowiki>''。
+
+<nowiki>
+这是一些包含这样的地址：http://www.splitbrain.org，以及**格式**的文字，但它没有被解析。
+</nowiki>
+对于带有表情符号的%%;-)的//__这段__文本//%%也一样。
+
+  <nowiki>
+  这是一些包含这样的地址：http://www.splitbrain.org，以及**格式**的文字，但它没有被解析。
+  </nowiki>
+  对于带有表情符号的%%;-)的//__这段__文本//%%也一样。
+
+===== 代码块 =====
+
+您可以将代码块包含到文档中，可以通过缩进两个空格（像前面例子中所用的）或者使用标签''%%<code>%%''或''%%<file>%%''。
+
+  这是缩进了两个空格的文本。
+
+<code>
+这是预格式化的代码，所有空格都被保留：像              <-这样
+</code>
+
+<file>
+这非常相似，但您可以用它来表明您引用了一个文件。
+</file>
+
+这些区块由下面的源码创建：
+
+    这是缩进了两个空格的文本。
+
+  <code>
+  这是预格式化的代码，所有空格都被保留：像              <-这样
+  </code>
+
+  <file>
+  这非常相似，但您可以用它来表明您引用了一个文件。
+  </file>
+  
+==== 语法高亮 ====
+
+[[wiki:DokuWiki]] 可以高亮源代码，使它更容易阅读。它使用[[http://qbnz.com/highlighter/|GeSHi]]通用语法高亮器——因此支持任何GeSHi所支持的语言。语法和前面章节中代码与文件块的一样，但这时所用语言的名称被放入标签中。例如''<nowiki><code java></nowiki>''或者''<nowiki><file java></nowiki>''。
+
+<code java>
+/**
+ * The HelloWorldApp class implements an application that
+ * simply displays "Hello World!" to the standard output.
+ */
+class HelloWorldApp {
+    public static void main(String[] args) {
+        System.out.println("Hello World!"); //Display the string.
+    }
+}
+</code>
+
+当前可以识别下列语言字符串：//4cs, abap, actionscript-french, actionscript, actionscript3, ada, apache, applescript, asm, asp, autohotkey, autoit, avisynth, awk, bash, basic4gl, bf, bibtex, blitzbasic, bnf, boo, c, c_mac, caddcl, cadlisp, cfdg, cfm, cil, clojure, cmake, cobol, cpp, cpp-qt, csharp, css, cuesheet, d, dcs, delphi, diff, div, dos, dot, eiffel, email, erlang, fo, fortran, freebasic, fsharp, gambas, genero, gdb, glsl, gml, gnuplot, groovy, gettext, haskell, hq9plus, html, idl, ini, inno, intercal, io, java5, java, javascript, jquery, kixtart, klonec, klonecpp, latex, lisp, locobasic, logtalk, lolcode, lotusformulas, lotusscript, lscript, lsl2, lua, m68k, make, mapbasic, matlab, mirc, modula3, mmix, mpasm, mxml, mysql, newlisp, nsis, oberon2, objc, ocaml-brief, ocaml, oobas, oracle8, oracle11, pascal, perl, perl6, per, php-brief, php, pike, pic16, pixelbender, plsql, povray, powerbuilder, powershell, progress, prolog, properties, providex, purebasic, python, qbasic, rails, rebol, reg, robots, rsplus, ruby, sas, scala, scheme, scilab, sdlbasic, smalltalk, smarty, sql, systemverilog, tcl, teraterm, text, thinbasic, tsql, typoscript, vbnet, vb, verilog, vhdl, vim, visualfoxpro, visualprolog, whitespace, winbatch, whois, xml, xorg_conf, xpp, z80//
+
+==== 可下载的代码块 ====
+
+当您使用上面的''%%<code>%%''或''%%<file>%%''语法，您或许希望让显示的代码也可以被下载。您可以通过在语言代码后面指定一个文件名来实现：
+
+
+<code>
+<file php myexample.php>
+<?php echo "hello world!"; ?>
+</file>
+</code>
+
+<file php myexample.php>
+<?php echo "hello world!"; ?>
+</file>
+
+如果您不想要任何高亮，但想要一个可下载的文件，指定破折号(''-'')作为语言代码：''%%<code - myfile.foo>%%''。
+
+===== 嵌入HTML和PHP =====
+
+您可以嵌入原始HTML或PHP代码到文件中，通过使用''%%<html>%%''或''%%<php>%%''标签。（如果您需要包围区块级别的元素，使用大写字母的标签。）
+
+HTML例子：
+
+<code>
+<html>
+这是一些<span style="color:red;font-size:150%;">行内HTML</span>
+</html>
+<HTML>
+<p style="border:2px dashed red;">这是一些区块HTML</p>
+</HTML>
+</code>
+
+<html>
+这是一些<span style="color:red;font-size:150%;">行内HTML</span>
+</html>
+<HTML>
+<p style="border:2px dashed red;">这是一些区块HTML</p>
+</HTML>
+
+PHP例子：
+
+<code>
+<php>
+echo 'PHP生成的标志：';
+echo '<img src="' . $_SERVER['PHP_SELF'] . '?=' . php_logo_guid() . '" alt="PHP标志!" />';
+echo '(生成行内HTML)';
+</php>
+<PHP>
+echo '<table class="inline"><tr><td>同样，不过是区块级别的元素：</td>';
+echo '<td><img src="' . $_SERVER['PHP_SELF'] . '?=' . php_logo_guid() . '" alt="PHP标志!" /></td>';
+echo '</tr></table>';
+</PHP>
+</code>
+
+<php>
+echo 'PHP生成的标志：';
+echo '<img src="' . $_SERVER['PHP_SELF'] . '?=' . php_logo_guid() . '" alt="PHP标志!" />';
+echo '(生成行内HTML)';
+</php>
+<PHP>
+echo '<table class="inline"><tr><td>同样，不过是区块级别的元素：</td>';
+echo '<td><img src="' . $_SERVER['PHP_SELF'] . '?=' . php_logo_guid() . '" alt="PHP标志!" /></td>';
+echo '</tr></table>';
+</PHP>
+
+**请注意**：HTML和PHP嵌入默认在配置中被禁用。如果禁用，代码被显示出来而不是执行。
+
+===== RSS/ATOM Feed聚合=====
+
+[[:dokuwiki]]能够从外部的XML feed中聚合数据。为了解析这些XML feed，使用了[[http://simplepie.org/|SimplePie]]。所有的能够被SimplePie理解的格式都可以在DokuWiki中使用。您可以通过多个参数来改变渲染，参数之间用空格隔开：
+
+^ 参数           ^ 描述                                                   ^
+| any number   | 最多显示多少内容项；默认是8                                       |
+| reverse      | 将最新条目显示在前面                                           |
+| author       | 显示条目的作者名                                             |
+| date         | 显示条目日期                                               |
+| description  | 显示条目的描述；如果[[doku>config:htmlok|HTML]]被禁用，所有的标签将被过滤掉  |
+| //n//[dhm]   | 刷新周期，其中，d=天数，h=小时数，m=分。例如，12h=12个小时。                 |
+
+刷新周期默认是4小时。小于或者等于10分钟均视为10分钟。[[wiki:DokuWiki]]通常会提供页面的缓存版，显然，这种做法不适用于包含动态外部内容的页面。上面的参数告诉[[wiki:DokuWiki]]，如果离上次重新解释的时间已经超出了//刷新周期//，则重新解释页面。
+
+**范例:**
+
+  {{rss>http://slashdot.org/index.rss 5 author date 1h }}
+
+{{rss>http://slashdot.org/index.rss 5 author date 1h }}
+
+===== 控制宏 =====
+
+一些语法会影响DokuWiki对页面的解释，而自身不输出任何内容。可用的控制宏如下：
+
+^ 宏           ^ 描述|
+| %%~~NOTOC~~%%   | 如果页面出现该控制宏，将不会创建目录|
+| %%~~NOCACHE~~%% | DokuWiki默认会缓存所有的输出。有时并不希望这样（例如，当使用了上面的%%<php>%%语法），增加这个控制宏将强制DokuWiki在每次访问时重新解析页面|
+===== 语法插件 =====
+DokuWiki's syntax can be extended by [[doku>plugins|Plugins]]. How the installed plugins are used is described on their appropriate description pages. The following syntax plugins are available in this particular DokuWiki installation:
+
+~~INFO:syntaxplugins~~

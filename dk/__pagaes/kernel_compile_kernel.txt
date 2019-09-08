@@ -1,0 +1,313 @@
+[[http://smilejay.com/2013/03/update-linux-headers/|更新LINUX内核头文件(LINUX HEADERS)]]
+
+[[http://blog.csdn.net/jinguangliu/article/details/46462671|Ubuntu内核源码树的构建与安装]]
+
+
+===== 简介 =====
+
+本文介绍了Ubuntu系统下内核源码树构建与安装的方法，构建环境基于Ubuntu 10.04和2.6.32的内核。
+
+===== 构建编译环境 =====
+
+  - 安装Ubuntu10.04的系统，本文的运行环境是在VMware Workstation 10环境下安装的Ubuntu 10.04的虚拟机环境
+  - 配置源列表，更新源列表的方法参见如何Ubuntu的源列表(source list)
+  - 安装编译工具
+在构造和编译内核模块之前，应该具备了正确版本的编译器、模块工具和其它必要的工具，内核文档目录中的Documentation/Changes文件列出了需要的工具版本；在开始构造模块之前，应该需要查看该文件并确保已安装了正确的工具。可以通过下面的命令进行集中安装：
+
+  sudo apt-get install kernel-package libncurses5-dev  
+kernel-package是Debian提供的一个编译Linux内核的一个工具集，安装kernel-package 会同时安装上build-essential、libncurses-dev、linux-source等一系列工具。通过下面的命令，可以查看该软件包的依赖关系：
+
+  bob@ubuntu:/usr/src$ apt-cache depends kernel-package  
+  kernel-package  
+  Depends: build-essential  
+  Depends: make  
+  Depends: po-debconf  
+  Depends: gettext  
+  Depends: file  
+  Depends: debianutils  
+  Depends: binutils  
+  Depends: util-linux  
+  Depends: module-init-tools  
+  |Suggests: linux-source  
+    linux-source-2.6.32  
+  Suggests: <kernel-source>  
+  Suggests: e2fsprogs  
+  Suggests: <libncurses-dev>  
+    libncurses5-dev  
+  Suggests: docbook-utils  
+  Suggests: xmlto  
+  Suggests: bzip2  
+  Suggests: <linux-initramfs-tool>  
+    initramfs-tools  
+  |Suggests: grub  
+  Suggests: grub2  
+  Suggests: jfsutils  
+  Suggests: mcelog  
+  Suggests: oprofile  
+  Suggests: pcmciautils  
+  Suggests: ppp  
+  Suggests: procps  
+  Suggests: reiserfsprogs  
+  Suggests: squashfs-tools  
+  Suggests: udev  
+  Suggests: xfsprogs  
+  Suggests: quota  
+  Suggests: btrfs-tools  
+  Recommends: cpio
+  
+从依赖关系中，我们可以看到，它包含了内核编译所需的工具。但缺省情况下，apt-get并不安装推荐和建议的软件包。如果你没有修改缺省配置，则需要额外的安装libncurses-dev等工具的操作。
+
+  sudo apt-get install libncurses5-dev  
+libncurses5软件包主要是支持使用menuconfig配置内核。
+
+===== 下载和安装源码包 =====
+各个Linux的发布版本在推出他们的产品时，其实已经都附上了内核的源码了。源码路径位于/usr/src/linux-headers-$(uname -r) 目录下。建议从这个发布源码学习内核编译，因为这里的源码中含有发布厂商设定好的预设设定值。这样可以轻易的了解他们是如何选择与核心及模块有关的各项设定项目的参数值，降低编译的难度。在本文中，我们在配置内核时，使用了系统已有的配置文件。
+使用apt-cache search linux-source命令可以查看可用的源码包：
+
+  bob@ubuntu:/usr/src$ sudo apt-cache search linux-source  
+  linux-source - Linux kernel source with Ubuntu patches  
+  linux-source-2.6.32 - Linux kernel source for version 2.6.32 with Ubuntu patches  
+使用apt-get install命令来进行源码的下载：
+
+  bob@ubuntu:/usr/src$ sudo apt-get install linux-source-2.6.32  
+  Reading package lists... Done  
+  Building dependency tree          
+  Reading state information... Done  
+  Suggested packages:  
+  libqt3-dev  
+  The following NEW packages will be installed:  
+    linux-source-2.6.32  
+  0 upgraded, 1 newly installed, 0 to remove and 105 not upgraded.  
+  Need to get 67.2MB of archives.  
+  After this operation, 67.2MB of additional disk space will be used.  
+  Get:1 http://mirrors.163.com/ubuntu/ lucid-security/main linux-source-2.6.32 2.6.32-74.142 [67.2MB]  
+  ......  
+下载后的源码安装在/usr/src目录下，通过tar命令将源码包Linux-source-2.6.32.tar.bz2解压到当前目录下：
+
+  bob@ubuntu:~$ cd /usr/src/  
+  bob@ubuntu:/usr/src$ ls  
+  linux-headers-2.6.32-38  linux-headers-2.6.32-38-generic-pae  linux-source-2.6.32.tar.bz2  
+  bob@ubuntu:/usr/src$ sudo tar -xjvf linux-source-2.6.32.tar.bz2  
+
+经过上面的系列工作，内核构建的准备就可以告一段落。接下来就可以进行内核的编译工作了。\\
+=====内核编译=====
+1. 内核make命令\\
+如果对内核编译命令不熟悉，可以在内核源码树跟目录下执行make help查看内核提供的编译选项：
+
+  bob@ubuntu:/usr/src/linux-source-2.6.32$ make help  
+  Cleaning targets:  
+  clean           - Remove most generated files but keep the config and  
+                    enough build support to build external modules  
+  mrproper        - Remove all generated files + config + various backup files  
+  distclean       - mrproper + remove editor backup and patch files  
+  
+  Configuration targets:  
+  config          - Update current config utilising a line-oriented program  
+  menuconfig      - Update current config utilising a menu based program  
+  xconfig         - Update current config utilising a QT based front-end  
+  gconfig         - Update current config utilising a GTK based front-end  
+  oldconfig       - Update current config utilising a provided .config as base  
+  localmodconfig  - Update current config disabling modules not loaded  
+  localyesconfig  - Update current config converting local mods to core  
+  silentoldconfig - Same as oldconfig, but quietly, additionally update deps  
+  randconfig      - New config with random answer to all options  
+  defconfig       - New config with default answer to all options  
+  allmodconfig    - New config selecting modules when possible  
+  allyesconfig    - New config where all options are accepted with yes  
+  allnoconfig     - New config where all options are answered with no  
+  
+Other generic targets:  
+  all             - Build all targets marked with [*]  
+* vmlinux         - Build the bare kernel  
+* modules         - Build all modules  
+  modules_install - Install all modules to INSTALL_MOD_PATH (default: /)  
+  firmware_install- Install all firmware to INSTALL_FW_PATH  
+                    (default: $(INSTALL_MOD_PATH)/lib/firmware)  
+  dir/            - Build all files in dir and below  
+  dir/file.[ois]  - Build specified target only  
+  dir/file.ko     - Build module including final link  
+  modules_prepare - Set up for building external modules  
+  tags/TAGS       - Generate tags file for editors  
+  cscope          - Generate cscope index  
+  kernelrelease   - Output the release version string  
+  kernelversion   - Output the version stored in Makefile  
+  headers_install - Install sanitised kernel headers to INSTALL_HDR_PATH  
+                    (default: /usr/src/linux-source-2.6.32/usr)  
+  
+Static analysers  
+  checkstack      - Generate a list of stack hogs  
+  namespacecheck  - Name space analysis on compiled kernel  
+  versioncheck    - Sanity check on version.h usage  
+  includecheck    - Check for duplicate included header files  
+  export_report   - List the usages of all exported symbols  
+  headers_check   - Sanity check on exported headers  
+  headerdep       - Detect inclusion cycles in headers  
+  
+Kernel packaging:  
+  rpm-pkg         - Build both source and binary RPM kernel packages  
+  binrpm-pkg      - Build only the binary kernel package  
+  deb-pkg         - Build the kernel as an deb package  
+  tar-pkg         - Build the kernel as an uncompressed tarball  
+  targz-pkg       - Build the kernel as a gzip compressed tarball  
+  tarbz2-pkg      - Build the kernel as a bzip2 compressed tarball  
+  
+Documentation targets:  
+ Linux kernel internal documentation in different formats:  
+  htmldocs        - HTML  
+  pdfdocs         - PDF  
+  psdocs          - Postscript  
+  xmldocs         - XML DocBook  
+  mandocs         - man pages  
+  installmandocs  - install man pages generated by mandocs  
+  cleandocs       - clean all generated DocBook files  
+  
+Architecture specific targets (x86):  
+* bzImage      - Compressed kernel image (arch/x86/boot/bzImage)  
+  install      - Install kernel using  
+                  (your) ~/bin/installkernel or  
+                  (distribution) /sbin/installkernel or  
+                  install to $(INSTALL_PATH) and run lilo  
+  fdimage      - Create 1.4MB boot floppy image (arch/x86/boot/fdimage)  
+  fdimage144   - Create 1.4MB boot floppy image (arch/x86/boot/fdimage)  
+  fdimage288   - Create 2.8MB boot floppy image (arch/x86/boot/fdimage)  
+  isoimage     - Create a boot CD-ROM image (arch/x86/boot/image.iso)  
+                  bzdisk/fdimage*/isoimage also accept:  
+                  FDARGS="..."  arguments for the booted kernel  
+                  FDINITRD=file initrd for the booted kernel  
+  
+  i386_defconfig           - Build for i386  
+  x86_64_defconfig         - Build for x86_64  
+  
+  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build  
+  make V=2   [targets] 2 => give reason for rebuild of target  
+  make O=dir [targets] Locate all output files in "dir", including .config  
+  make C=1   [targets] Check all c source with $CHECK (sparse by default)  
+  make C=2   [targets] Force check of all c source with $CHECK  
+  
+Execute "make" or "make all" to build all targets marked with [*]   
+For further info see the ./README file
+执行编译工作需要root的权限。
+
+2.  导入内核配置文件
+导入系统自带源码的配置文件来，使用cp命令拷贝到当前源码树的跟目录下
+  bob@ubuntu:/usr/src/linux-source-2.6.32$ sudo cp ../linux-headers-2.6.32-38-generic/.config .config  
+使用make menuconfig来对内核配置文件进行配置:
+
+  root@ubuntu:/usr/src/linux-source-2.6.32# make menuconfig  
+  HOSTCC  scripts/basic/fixdep  
+  HOSTCC  scripts/basic/docproc  
+  .......  
+  lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq Linux Kernel Configuration qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk  
+  x  Arrow keys navigate the menu.  <Enter> selects submenus --->.  Highlighted letters are hotkeys.  Pressing <Y> includes,    x  
+  x  <N> excludes, <M> modularizes features.  Press <Esc><Esc> to exit, <?> for Help, </> for Search.  Legend: [*] built-in     x  
+  x  [ ] excluded  <M> module  < > module capable                                                                               x  
+  x                                                                                                                             x  
+  x lqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqk x  
+  x x                             General setup  --->                                                                         x x  
+  x x                         [*] Enable loadable module support  --->                                                        x x  
+  x x                         -*- Enable the block layer  --->                                                                x x  
+  x x                             Processor type and features  --->                                                           x x  
+  x x                             Power management and ACPI options  --->                                                     x x  
+  x x                             Bus options (PCI etc.)  --->                                                                x x  
+  x x                             Executable file formats / Emulations  --->                                                  x x  
+  x x                         -*- Networking support  --->                                                                    x x  
+  x x                             Device Drivers  --->                                                                        x x  
+  x x                             Ubuntu Supplied Third-Party Device Drivers  --->                                            x x  
+  x x                             Firmware Drivers  --->                                                                      x x  
+  x x                             File systems  --->                                                                          x x  
+  x x                             Kernel hacking  --->                                                                        x x  
+  x x                             Security options  --->                                                                      x x  
+  x x                         -*- Cryptographic API  --->                                                                     x x  
+  x x                         [*] Virtualization  --->                                                                        x x  
+  x x                             Library routines  --->                                                                      x x  
+  x x                         ---                                                                                             x x  
+  x x                             Load an Alternate Configuration File                                                        x x  
+  x x                             Save an Alternate Configuration File                                                        x x  
+  x x                                                                                                                         x x  
+  x x                                                                                                                         x x  
+  x mqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqj x  
+
+选择**load an Alternate  kernel configuration**选项加载本地的.config配置文件，然后在选择save an Alternate kernel configuration再保存退出，并退出配置环境。这样我们的内核配置就按照原系统的配置选项配置完成。
+
+3. 内核编译
+
+内核与内核模块需要先编译，而编译的过程其实非常简单，可以先用make help去查看一下所有的编译参数，就知道有底下这些基本功能：
+
+  root@ubuntu:/usr/src/linux-source-2.6.32# make vmlinux <==未经压缩的核心   
+  root@ubuntu:/usr/src/linux-source-2.6.32# make modules <==仅核心模块   
+  root@ubuntu:/usr/src/linux-source-2.6.32# make bzImage <==经压缩过的核心(预训)   
+  root@ubuntu:/usr/src/linux-source-2.6.32# make all <==进行上述的三个劢作   
+常见的在 /boot/ 底下的内核文件，都是经过压缩过的，因此，上述的劢作中比较常用的是 modules 和 bzImage 这两个。bzImage 可以制作出压缩过后的内核所以，基本上通常进行的动作是： 
+
+  root@ubuntu:/usr/src/linux-source-2.6.32# make clean <==先清除暂存档  
+  root@ubuntu:/usr/src/linux-source-2.6.32# make bzImage <==先编译核心   
+  root@ubuntu:/usr/src/linux-source-2.6.32# make modules <==再编译模块   
+编译的压缩内核放置路径为/usr/src/kernels/linux-2.6.30.3/arch/x86/boot/bzImage。
+
+内核和模块安装
+1. 上述工作完成后，我们可以开始内核和模块的安装工作：
+
+  root@ubuntu:/usr/src/linux-source-2.6.32# make modules_install  
+  root@ubuntu:/usr/src/linux-source-2.6.32# make install  
+安装工作完成后，新内核的模块可以在/lib/modules目录下，内核文件安装在/boot目录下，新内核的版本为2.6.32.63+drm33.26：
+
+  <pre name="code" class="plain">root@ubuntu10dot04:/usr/src/linux-source-2.6.32# ls -l /lib/modules/  
+  total 8  
+  drwxr-xr-x 4 root root 4096 2015-06-08 13:23 2.6.32-38-generic-pae  
+  drwxr-xr-x 3 root root 4096 2015-06-08 15:19 2.6.32.63+drm33.26  
+  
+  root@ubuntu:/usr/src/linux-source-2.6.32# cd /boot/  
+  root@ubuntu:/boot# ls  
+  abi-2.6.32-38-generic-pae      grub                              System.map-2.6.32-38-generic-pae   vmlinuz-2.6.32-38-generic-pae  
+  config-2.6.32-38-generic-pae   initrd.img-2.6.32-38-generic-pae  System.map-2.6.32.63+drm33.26      vmlinuz-2.6.32.63+drm33.26  
+  config-2.6.32.63+drm33.26      lost+found                        System.map-2.6.32.63+drm33.26.old  vmlinuz-2.6.32.63+drm33.26.old  
+  config-2.6.32.63+drm33.26.old  memtest86+.bin                    vmcoreinfo-2.6.32-38-generic-pae  
+
+2. 生成内核对应的RAMDISK文件
+
+  root@ubuntu:/boot# update-initramfs -c -k 2.6.32.63+drm33.26  
+  update-initramfs: Generating /boot/initrd.img-2.6.32.63+drm33.26  
+  root@ubuntu:/boot#   
+
+3. 更新grub配置文件
+
+  root@ubuntu:/boot# update-grub  
+  Generating grub.cfg ...  
+  Found linux image: /boot/vmlinuz-2.6.32.63+drm33.26  
+  Found initrd image: /boot/initrd.img-2.6.32.63+drm33.26  
+  Found linux image: /boot/vmlinuz-2.6.32-38-generic-pae  
+  Found initrd image: /boot/initrd.img-2.6.32-38-generic-pae  
+  Found memtest86+ image: /memtest86+.bin  
+  done  
+
+参考/boot/grub/grub.cfg文件，可以看到新内核的配置已经加到配置文件中。为避免可能出现的无法开机的情况，Grub.cfg的配置缺省值不要设置为新的内核。
+新内核测试
+
+重新启动系统，在Grub界面里选择启动新内核；系统若能正常启动，可以使用uname -r命令查看是否为新内核在运行。
+如果系统运行稳定，可以将grub.cfg的配置修改为缺省启动新内核。
+到此，内核的构建工作基本完成。
+
+=====参考资料=====
+1. 鸟哥的Linux私房菜基础篇（第三版）
+
+=====附录=====
+ubuntu 14.04默认用的是grub2 
+所以不要装grub ,否则装了grub用menu.lst配置是无法启动系统的，这是个坑。
+
+修改/etc/default/grub文件
+
+找到GRUB_HIDDEN_TIMEOUT=0 
+这行，使用#注释掉
+
+找到 
+GRUB_TIMEOUT=10 
+把10变成3,意思是等待3秒钟。 
+GRUB_TIMEOUT=-1 
+保存后，执行命令 
+sudo update-grub
+
+这样开机就会显示grub启动菜单了
+
+===== include =====
+/usr/include
+这个目录是公用头文件，其实现有些在linux内核中（如系统调用），有些在glibc中（如C标准库），有些在第三方库中（/lib和/usr/lib中的那一票东西）

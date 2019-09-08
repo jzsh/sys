@@ -1,0 +1,16 @@
+==== Java中char数组(字符数组)与字符串String类型的转换方法====
+
+<code java>
+String strStringType="my string"; //创建一个字符串变量strStringType
+char[] chrCharArray; //创建一个字符数组chrCharArray
+chrCharArray = strStringType.toCharArray();
+strStringType= String.valueOf(chrCharArray );
+</code>
+
+这里，关键是两个String的方法。
+（1）String类的toCharArray()方法，将字符串转换为字符数组\\
+（2）String类的valueOf()方法，将char类型的数组转换为字符串
+
+==== String类常用的方法 ====
+toCharArray() 将字符串变量转换为字符数组
+valueOf()     将(字符数组)转换为字符串

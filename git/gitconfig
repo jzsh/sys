@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+git_config() {
+	rm -rf ~/.gitconfig
+	git config --global user.name guojiangzhe
+	git config --global user.email jiangzhe.guo@hotmail.com
+	git config --global core.editor vim
+	git config --global core.quotepath false
+	git config --global color.ui always
+	git config --global alias.st status
+}
+
+git_config

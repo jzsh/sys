@@ -1,0 +1,40 @@
+  * Ordered List Itemstruct sk_buff has no member named 'nh'
+I am compiling a kernel module in 2.6.33.6 ver kernel.\\
+I am getting the following error\\
+Code:
+  /root/vandan/l4_switch/kernel/l4switch.c:103: error: ‘struct sk_buff’ has no member named ‘nh’
+I found that it references the below kernel header file, In which the struct sk_buff is defined and it doesn't contain any member named nh in tht.
+
+Quote:
+  /lib/modules/2.6.33.6/build/include/linux/skbuff.h
+Ans:\\
+These members now appear to be handled by the network header and transport header fields. If there is no newer version of the module you are compiling, then it will need to be patched, perhaps along the lines of replacing 'skbuffptr->nh.iph' with 'ip_hdr(skbuffptr)' and 'skbuffptr->h.th' with 'tcp_hdr(skbuffptr)'.
+
+Tips：关于NF_IP_PRE_ROUTING
+
+问题：在内核编程中（2.6.25.17）中使用NF_IP_PRE_ROUTING，出现错误“'NF_IP_PRE_ROUTING' undeclared (first use in this function)”，而代码里面已经包含了netfilter_ipv4.h。
+原因：在2.6.22以及以后的内核中，NF_IP_PRE_ROUTING以及NF_IP6_PRE_ROUTING都被放在了用户态，而在内核态编程必须统一使用NF_INET_PRE_ROUTING。
+具体在netfilter_ipv4.h源代码中可以看到, NF_IP_PRE_ROUTING的定义被放在了#ifndef __KERNERL__下。
+解决：NF_INET_PRE_ROUTING替代NF_IP_PRE_ROUTING
+同样的问题适合各种未定义的原因
+
+====== 模块编译错误 ======
+  root@gjz-desktop:~/git_home/c/kernel/Writing-Netfilter-Modules-Tutorial/mod# insmod ./xt_ipaddr.ko
+  insmod: error inserting './xt_ipaddr.ko': -1 Unknown symbol in module
+  root@gjz-desktop:~/git_home/c/kernel/Writing-Netfilter-Modules-Tutorial/mod# dmesg 
+  [26600.864809] xt_ipaddr: Unknown symbol xt_register_match
+  [26600.864943] xt_ipaddr: Unknown symbol xt_unregister_match
+这是依赖的其他模块没有加载所导致的， 用如下命令发现需要加载x_tables
+  root@gjz-desktop:~/git_home/c/kernel/Writing-Netfilter-Modules-Tutorial/mod# modinfo ./xt_ipaddr.ko
+  filename:       ./xt_ipaddr.ko
+  alias:          ipt_ipaddr
+  license:        GPL
+  description:    Xtables: Match source/destination address
+  author:         Juan Antonio Osorio <jaosorior@gmail.com>
+  srcversion:     5A46F0842026DB090DEACE4
+  depends:        x_tables
+  vermagic:       2.6.32.63+drm33.26 SMP mod_unload modversions 586 
+
+  root@gjz-desktop:/usr/src/linux-source-2.6.32/net# insmod ./netfilter/x_tables.ko
+
+  insmod: error inserting './igb.ko': -1 Invalid module format   --->   模块的vermagic（就是编译内核的环境的内核版本）和当前系统不相匹配

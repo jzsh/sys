@@ -1,0 +1,36 @@
+===Cygwin添加“Open Cygwin Here”到右键===
+
+1. cygwin.reg如下， 输入到注册表\\
+  Windows Registry Editor Version 5.00
+  
+  [HKEY_CLASSES_ROOT\Directory\Background\shell\cygwin_bash]
+  @="Open Cygwin Here"
+  
+  [HKEY_CLASSES_ROOT\Directory\Background\shell\cygwin_bash\command]
+  @="D:\\cygwin\\bin\\mintty.exe -i /Cygwin-Terminal.ico /bin/env _T=%V /bin/bash -l"
+
+2. 进入Cygwin，编辑~/.bash_profile文件，在尾部添加如下内容：\\
+<code bash>
+_T=${_T//\\//} #将所有的'\'替换为'/'
+if [[ $_T == "" ]]; then
+    _T=${HOME}
+fi
+cd "${_T}"
+</code>
+
+或者如下：\\
+  Windows Registry Editor Version 5.00
+  ; Open cygwin to folder
+  ; http://tomkay.me - Tom Kay
+  
+  [HKEY_CLASSES_ROOT\Folder\shell\open_cygwin]
+  @="Open Cygwin Here"
+  
+  [HKEY_CLASSES_ROOT\Folder\shell\open_cygwin\command]
+  @="C:\\cygwin64\\bin\\mintty.exe /bin/sh -lc 'cd \"`cygpath \"%V\"`\"; bash'"
+  
+  [HKEY_CLASSES_ROOT\Directory\Background\shell\open_cygwin]
+  @="Open Cygwin Here"
+  
+  [HKEY_CLASSES_ROOT\Directory\Background\shell\open_cygwin\command]
+  @="C:\\cygwin64\\bin\\mintty.exe /bin/sh -lc 'cd \"`cygpath \"%V\"`\"; bash'"

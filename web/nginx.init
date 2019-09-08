@@ -1,0 +1,52 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          nginx
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the nginx web server
+# Description:       starts nginx using start-stop-daemon
+### END INIT INFO
+
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/local/nginx/nginx
+NAME=nginx
+DESC=nginx
+
+test -x $DAEMON || { echo "No exec found";exit 0; }
+
+# Include nginx defaults if available
+if [ -f /etc/default/nginx ] ; then
+        . /etc/default/nginx
+fi
+
+set -e
+
+case "$1" in
+  start)
+        echo -n "Starting $DESC: "
+        $DAEMON
+        ;;
+  stop)
+        echo -n "Stopping $DESC: "
+        $DAEMON -s stop
+        ;;
+  #restart|force-reload)
+  reload)
+      echo -n "Reloading $DESC configuration: "
+      $DAEMON
+      ;;
+  *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|restart|force-reload}" >&2
+        exit 1
+        ;;
+esac
+[ $? -eq 0 ] || echo "Failed" && echo "Successed"
+
+exit 0
+
+

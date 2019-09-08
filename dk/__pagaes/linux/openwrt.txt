@@ -1,0 +1,105 @@
+====== Install UCI on ubuntu ======
+
+===== Make UCI in UBUNTU 16.04 , Raspbian Jessie or similar=====
+If you want to use uci in Debian, UBUNTU or similar,  do the following steps:
+
+First make a directory for download source codes:
+<code>
+mkdir ~/Desktop/uci
+</code>
+
+**1- Install json-c**
+
+Install the required packages:
+<code>
+sudo apt-get install dh-autoreconf git
+</code>
+
+Download source code:
+<code>
+cd ~/Desktop/uci
+git clone https://github.com/json-c/json-c.git
+</code>
+
+Make and install json-c:
+<code>
+cd json-c
+sh ./autogen.sh
+./configure
+make
+sudo make install
+make check
+</code>
+
+**2- Install libubox**
+
+Install the required packages:
+<code>
+sudo apt-get install lua5.1 liblua5.1-0-dev cmake
+</code>
+
+Download source code:
+<code>
+cd ~/Desktop/uci
+git clone https://git.openwrt.org/project/libubox.git
+</code>
+
+Make and install libubox:
+<code>
+cd libubox
+cmake .
+make
+sudo make install
+</code>
+
+**3- Install uci**
+
+Download source code:
+<code>
+cd ~/Desktop/uci
+git clone https://git.openwrt.org/project/uci.git
+</code>
+
+Make and install uci:
+<code>
+cd uci
+cmake .
+sudo make install
+</code>
+
+Now u can use uci :
+<code>
+uci
+</code>
+
+If you still see this message:
+<code>
+error while loading shared libraries: libubox.so: cannot open shared object file: No such file or directory
+</code>
+
+edit this file:
+<code>
+sudo nano /etc/environment
+</code>
+
+Add this command into it:
+<code>
+LD_LIBRARY_PATH=/usr/local/lib
+</code>
+
+or this file
+<code>
+sudo nano /etc/profile
+</code>
+
+Add these commands into it:
+<code>
+LD_LIBRARY_PATH=/usr/local/lib
+export LD_LIBRARY_PATH
+</code>
+
+This will let you restart your computer.
+
+===== Functioning =====
+All ''uci set'', ''uci add'', ''uci rename'' and ''uci delete'' commands are staged in ''/tmp'' and written to flash at once with ''uci commit''.
+This obviously does not apply to people using text editors, but to scripts, guis and other programs working with uci files.

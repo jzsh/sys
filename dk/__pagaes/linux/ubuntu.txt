@@ -1,0 +1,30 @@
+==== Ubuntu 10.04关闭图形桌面 ====
+
+在ubuntu10.04版本以下的系统中：
+
+方法：
+
+  sudo vim /etc/default/grub\\
+  找到这一行：GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+  改为：GRUB_CMDLINE_LINUX_DEFAULT="text "或者"quiet splash text"
+  保存后sudo update-grub 重启即可。
+
+**Note**:
+quiet的意思是内核启动时候简化提示信息 \\
+splash的意思是启动的时候使用图形化的进度条代替init的字符输出过程
+
+==== 解决debian 终端命令行无法自动补全 ====
+
+1.安装命令补全：
+
+  apt-get install bash-completion
+
+2. 在 /etc/profile 里加
+
+  if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+
+3.刷新/etc/profile配置文件，使其生效
+
+  source /etc/profile

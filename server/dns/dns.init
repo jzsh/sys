@@ -1,0 +1,27 @@
+#!/bin/sh
+
+start() {
+	/etc/init.d/dnsmasq start
+}
+
+stop() {
+    killall -9 dnsmasq
+}
+
+restart() {
+	stop
+	start
+}
+
+if [ "$1" = start ]; then
+	start
+elif [ "$1" = stop ]; then
+	stop
+elif [ "$1" = restart ]; then
+	restart
+else
+	echo "Usage: $0 start/stop/restart"
+fi
+
+
+

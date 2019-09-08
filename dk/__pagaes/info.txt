@@ -1,0 +1,21 @@
+[[http://mp.weixin.qq.com/s/B678zlfVEHOriOh5sjdn_w|积累的编程知识在十年后将有一半没用？ ]]
+
+链接：https://www.zhihu.com/question/56836420/answer/151118684
+
+我推荐选择技术方向，而不是工具平台。我自身的例子很好说明问题，我刚刚毕业的时候做的是perl，shell脚本的编程。基本做一些数据库维护的工作。做了一年，公司根本没有发展潜力。跳槽到一家嵌入式公司，做rom开发。我当时的rom是基于linux 系统的rom，ui跑的是公司自己用c写的UI，不是现在android系统。主要的工作是移植开源软件到开发板上。这时发现很多linux的基础系统调用都不会，于是重新买本linux系统开放来学习。之后公司业务倒闭，所以跳槽到一家行内知名的芯片公司实习，做android rom 开发。主要做多媒体系统的调试，然后重新学习多媒体编解码相关技术。这家公司以996工作制而出名，虽然已经基本掌握的多媒体系统的调试工作，但是工作不到半年身体实在受不了。跳槽到一家较轻松的基于android芯片公司。最近以android工程师身份加入某互联网公司。从我的观察来看互联网公司内部，如果是做研发，做java开发的是大头，比如会做搜索推荐的，会做IM即时通讯的，会处理大数据量并发的。工资都非常高（20K以上），而会做做c/c++嵌入式开发，互联网公司当然也需要，但是基本上现在都是需要对Android IOS系统非常精通的人士，甚至要懂得编解码相关技术。而那些只是会android ios皮毛的人，公司是不喜欢的。工资大约（18K）以上。
+
+所以做Java开发，如果是硕士生，应该多**关心大数据，高并发，搜索推荐，人工智能的项目**。这样项目如果一但有了完整的项目经验，薪资非常好，而不应该只会做一些jsp页面，数据库查询等简单的。如果是做嵌入式开发，应该多做多媒体调试（包括摄像头，编解码），蓝牙wifi设备调试，声音效果调试方面的项目。这类项目难度大，工资也高，视频编码，摄像头 18K。比如蓝牙WIFI调试，有公司开18K。声音效果，音效处理，有公司竟然（30K）而且现在人工智能技术非常流行，如果有能力的研究生，可以多留心这样的公司，可以做深度学习方面的项目，以后需求这样技术的公司非常多。从我的经历来看，不推荐做一些shell python脚本维护，或者只做业务流程，或者是跟着别人后面解bug的项目，不管所用的语言是JAVA，C++或者python，因为这些项目不用自己动脑子，基本上是跟着别人要求做，无法形成一个完整的项目经验。而多应该做一些研究性，技术含量高的，能全程参与的项目，最好形成完整的项目经验，（从零到有最好)，比如公司从零搭建一个搜索引擎，从零搭建一个IM引擎，从零开始bringup某个硬件。从零开始开发一个直播系统。而且建议工作期间最好能进入一次大公司，因为大公司视野更宽广，涉及的面广。我现在正从零开发一个直播系统。学到了很多东西。
+
+====== Blog & Wiki ======
+A **blog** is defined as a set of publications that can contain text elements, images, videos and other graphic elements in a chronological order. Usually, users make use of blogs to publish their own online journal, else to give different tips on various subjects. 
+
+While choosing a blog, you should bear in mind the purpose of the blog. A blog will have only one moderator- you! You cannot assign them to anybody else (you can try to give them your password and username but this is totally not recommended) 
+
+The major concept of a **wiki** is the collaboration of many users on a single project; the Wiki. Users will have to share their knowledge by editing, modifying, browsing for more information so that at the end of the day, the articles that are posted have a complete set of information on the subject at hand. 
+A Wiki is normally chosen as a formal way to publish contents on serious or up-to-date events. The collaboration of many users will help you to stay tuned with the happenings around the world. 
+
+====== Setup Blog ====== 
+  * Wordpress
+  * jekyll
+  * hexo
+

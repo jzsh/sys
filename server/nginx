@@ -1,0 +1,14 @@
+#!/bin/sh
+
+start() {
+	/usr/local/nginx/nginx
+}
+
+stop() {
+	/usr/local/nginx/nginx -s stop
+}
+
+reload() {
+	/usr/local/nginx/nginx -s reload
+}
+$1

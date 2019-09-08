@@ -1,0 +1,31 @@
+#!/bin/sh
+
+start() {
+    /etc/init.d/xl2tpd start
+    echo "start l2tp server.."
+    echo user name : `cat /etc/ppp/chap-secrets | grep -v "^#"| grep -v ^$ | cut -f 1 -d " "`
+    echo password : `cat /etc/ppp/chap-secrets | grep -v "^#"| grep -v ^$ | cut -f 3 -d " "`
+}
+
+stop() {
+    /etc/init.d/xl2tpd stop 2>/dev/null
+}
+
+restart() {
+	stop
+	start
+}
+
+cp ./xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
+cp ./options.xl2tpd /etc/ppp/options.xl2tpd
+
+if [ "$1" = start ]; then
+	start
+elif [ "$1" = stop ]; then
+	stop
+elif [ "$1" = restart ]; then
+	restart
+else
+	echo "Usage: $0 start/stop/restart"
+fi
+
