@@ -74,13 +74,13 @@ set listchars=tab:>\ ,trail:.
 set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]
 set laststatus=2                        " always show the status line
 
-" 编码设置
+" Encoding
 set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 set fileformats=unix,dos                "set file format when saving new buffer
 
-" 缩进设置
+" indent setting
 let g:tw=[2,4,8]
 let g:tid=1
 set noexpandtab                         " or expandtab
@@ -92,7 +92,7 @@ set backspace=indent,eol,start
 autocmd FileType python set expandtab
 nnoremap <silent> <F2> :let tid=(tid+1)%3<cr> <bar> :let &tabstop=tw[tid]<cr>
 
-" 查找替换
+" Search/Replace
 set hlsearch
 set incsearch
 set ignorecase
@@ -148,6 +148,11 @@ nmap <leader>w :w!<cr>
 command! W exec 'w !sudo tee % > /dev/null'
 " Scrolling
 set scrolloff=5  " set cursor line in the middle of window
+noremap <F6> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
+
 noremap <F7> 10zh
 inoremap <F7> <ESC>10zhi
 noremap <F8> 10zl
@@ -218,3 +223,15 @@ MapToggle <F5> hlsearch
 
 nmap <F9> :PreviousColorScheme<cr>
 nmap <F10> :NextColorScheme<cr>
+
+"trick: automatically set paste mode in Vim when pasting in insert mode
+let &t_SI .= "\<Esc>[?2004h"
+let &t_EI .= "\<Esc>[?2004l"
+
+inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+
+function! XTermPasteBegin()
+  set pastetoggle=<Esc>[201~
+  set paste
+  return ""
+endfunction

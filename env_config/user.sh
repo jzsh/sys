@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# 配置用户
+# generate ssh key
 keygen() {
 	# create a ssh key
 	if [ -e ~/.ssh/id_rsa.pub ]; then
@@ -33,4 +33,4 @@ git_config() {
 
 keygen
 git_config
-sh user_soci.sh
+#sh user_soci.sh
