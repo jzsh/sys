@@ -66,8 +66,8 @@ set cursorline
 " highlight CursorLine   guibg=dark guifg=black ctermbg=000000 ctermfg=NONE
 " highlight CursorColumn guibg=dark guifg=black ctermbg=000000 ctermfg=NONE
 
-set nu                                 	" show line number
-set list                                " donot show blank char
+set nu                                 " show line number
+set nolist                             " donot show blank char
 set listchars=tab:>\ ,trail:.
 
 """"Status Bar""""
@@ -223,6 +223,10 @@ MapToggle <F5> hlsearch
 
 nmap <F9> :PreviousColorScheme<cr>
 nmap <F10> :NextColorScheme<cr>
+
+"""""Plugin setting"""""
+" syntastic
+let g:syntastic_cpp_compiler_options = '-std=c++11' " Open c++11 flag for gcc
 
 "trick: automatically set paste mode in Vim when pasting in insert mode
 let &t_SI .= "\<Esc>[?2004h"
