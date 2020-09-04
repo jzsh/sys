@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # ref http://www.jb51.net/article/77486.htm
-PHP=php-5.4.45
+PHP=php-5.5.0
 NGINX=nginx-1.6.3
 MYSQL=mysql-5.5.56
 BUILD_DIR=`pwd`/build
@@ -11,10 +11,28 @@ DL=`pwd`/dl
 mkdir -p $BUILD_DIR
 mkdir -p $DL
 
+dl() {
+	packageName=$1
+	url=$2
+	cd $DL
+	[ ! -e "$packageName" ] && wget $url
+	cd - 
+}
+
+
 php() {
-	[ ! -e "$BUILD_DIR"/"$PHP" ] && {
-		tar -zxf $DL/$PHP.tar.gz -C $BUILD_DIR
-	}
+	dl libiconv-1.13.1.tar.gz http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.13.1.tar.gz
+	dl $PHP.tar.gz http://cn2.php.net/distributions/$PHP.tar.gz
+	sudo yum -y install libxml2-devel.x86_64
+	sudo yum -y install bzip2-devel.x86_64
+	sudo yum -y install libcurl-devel.x86_64
+	sudo yum -y install libjpeg-turbo-devel.x86_64
+	sudo yum -y install libpng-devel.x86_64
+	sudo yum -y install libmcrypt-devel.x86_64
+	tar -zxf $DL/$PHP.tar.gz -C $BUILD_DIR
+	tar -zxf $DL/libiconv-1.13.1.tar.gz -C $BUILD_DIR
+	cd $BUILD_DIR/libiconv-1.13.1; ./configure && make && sudo make install; cd -
+
 	test -e /usr/local/php || {
 		cd $BUILD_DIR/$PHP
 		./configure \
@@ -69,28 +87,18 @@ install_preq_centos() {
 	sudo yum -y install libxml2-devel.x86_64 
 }
 
-dl() {
-	packageName=$1
-	url=$2
-	cd $DL
-	[ ! -e "$packageName" ] && wget $url
-	cd - 
-}
-
 #$PHP.tar.gz http://cn2.php.net/distributions/$PHP.tar.gz
 #$NGINX.tar.gz http://nginx.org/download/$NGINX.tar.gz
 #"
 #download() {
 #	cd $DL
-#	#[ -e $DL/libiconv-1.13.1.tar.gz ] || wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.13.1.tar.gz
-#	#[ -e $DL/$PHP.tar.gz ] || wget http://cn2.php.net/distributions/$PHP.tar.gz
-#	#[ -e $DL/$NGINX.tar.gz ] || wget http://nginx.org/download/$NGINX.tar.gz
 #}
 
 nginx() {
 	dl openssl-1.0.1t.tar.gz https://ftp.openssl.org/source/old/1.0.1/openssl-1.0.1t.tar.gz
 	dl pcre-8.10.tar.gz https://ftp.pcre.org/pub/pcre/pcre-8.10.tar.gz
 	dl zlib-1.2.11.tar.gz https://nchc.dl.sourceforge.net/project/libpng/zlib/1.2.11/zlib-1.2.11.tar.gz
+	dl /$NGINX.tar.gz http://nginx.org/download/$NGINX.tar.gz
 
 	test -e /usr/local/nginx || {
 		tar -zxf $DL/$NGINX.tar.gz -C $BUILD_DIR
@@ -272,6 +280,16 @@ if [ "$1" = "all" ];then
 	start_serv
 elif [ -n "$1" ]; then
 	eval "$1"
+else
+echo "
+	download
+	php
+	php_config
+	nginx
+	nginx_config
+	dk
+	start_serv
+	"
 fi
 
 
