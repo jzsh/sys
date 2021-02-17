@@ -32,7 +32,7 @@ update() {
 
 install() {
 	pkgs="
-git-core
+git
 vim
 expect
 openssh-server
