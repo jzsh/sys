@@ -1,77 +1,31 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"         Plugin setting
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Specify a directory for plugins
-" - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
-
 " Make sure you use single quotes
-
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
-
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
 " Using a non-default branch
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
 " Plugin options
 Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'dense-analysis/ale'
+Plug 'tomasr/molokai'
+Plug 'bling/vim-airline'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/taglist.vim'
 
 " Initialize plugin system
 call plug#end()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""         Plugin setting
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" vundle {{{1
-"
-"" needed to run vundle
-"set nocompatible
-"filetype off
-"
-"" set the runtime path for vundle
-"set rtp+=~/.vim/bundle/Vundle.vim
-"
-"" start vundle environment
-"call vundle#begin()
-"
-"" let Vundle manage Vundle (this is required)
-"Plugin 'VundleVim/Vundle.vim'
-"
-"" install/update/delete a plugin
-"" 	:PluginInstall
-""   :PluginUpdate
-""   :PluginClean
-"
-"" YOUR LIST OF PLUGINS GOES HERE LIKE THIS:
-"Plugin 'bling/vim-airline'
-"Plugin 'altercation/solarized'
-"Plugin 'tomasr/molokai'
-"Plugin 'godlygeek/tabular'
-"Plugin 'plasticboy/vim-markdown'
-"Plugin 'vim-syntastic/syntastic'
-"Plugin 'scrooloose/nerdtree'
-"" Plugin 'vim-scripts/colorsupport.vim'
-"" Plugin 'JamshedVesuna/vim-markdown-preview'
-"" Plugin 'MikeCoder/markdown-preview.vim'
-"Plugin 'iamcco/markdown-preview.vim'
-"" Plugin 'flazz/vim-colorschemes'
-"" Plugin 'chxuan/change-colorscheme'
-"" Plugin 'vim-scripts/Smart-Tabs'
-"Plugin 'vim-scripts/taglist.vim'
-"" add plugins before this
-"call vundle#end()
-"filetype plugin indent on    " required
-
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 "         basic settings

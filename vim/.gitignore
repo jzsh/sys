@@ -1,4 +1,5 @@
 tmp
+.vim/plugged/*
 .vim/.netrwhist
 .vim/doc/*
 .vim/MarkDownRes/*
