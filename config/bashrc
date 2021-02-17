@@ -128,3 +128,5 @@ PROMPT_COMMAND='echo -ne "\033]0;${PWD/$HOME/~}\007"'
 if [ -f ~/.git-completion.bash ]; then
 	source ~/.git-completion.bash
 fi
+
+source ~/.bashrc.alias

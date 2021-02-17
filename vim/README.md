@@ -16,3 +16,14 @@ https://vim.fandom.com/wiki/Indenting_source_code
 'shiftwidth' affects what happens when you press >>, << or ==. It also affects how automatic indentation works. (See below.)
 'expandtab' affects what happens when you press the <TAB> key. If 'expandtab' is set, pressing the <TAB> key will always insert 'softtabstop' amount of space characters. Otherwise, the amount of spaces inserted is minimized by using TAB characters.
 'smarttab' affects how <TAB> key presses are interpreted depending on where the cursor is. If 'smarttab' is on, a <TAB> key inserts indentation according to 'shiftwidth' at the beginning of the line, whereas 'tabstop' and  'softtabstop' are used elsewhere. There is seldom any need to set this option, unless it is necessary to use hard  TAB characters in body text or code.
+
+### PlugIn
+vim-plug
+https://github.com/junegunn/vim-plug
+command:
+    :PlugInstall
+    :PlugStatus
+
+### check vim start time
+vim --startuptime vim.log
+vim -X  " no connect to X
