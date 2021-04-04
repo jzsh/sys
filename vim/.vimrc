@@ -74,6 +74,10 @@ set autoindent
 set backspace=indent,eol,start
 
 autocmd FileType python set expandtab
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \ execute("normal `\"") |
+    \ endif
 nnoremap <silent> <F2> :let tid=(tid+1)%3<cr> <bar> :let &tabstop=tw[tid]<cr>
 
 " Search/Replace
@@ -178,8 +182,10 @@ noremap <leader>ff :echo expand('%:p')<CR>
 autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
 autocmd FileType sh,ruby,python   let b:comment_leader = '# '
 autocmd FileType vim              let b:comment_leader = '" '
+autocmd BufEnter,BufNew *.v *.sv  let b:comment_leader = '// '
 noremap <silent> ,cc :s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
 noremap <silent> ,cu :s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+noremap <silent> ,t :NERDTreeToggle<CR>
 
 " win
 vnoremap <silent> <C-C> "+y
@@ -190,6 +196,7 @@ nnoremap ,bn :bn<cr>
 nnoremap ,b :ls<CR>:buffer<Space>
 " move
 nnoremap  00 $
+nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>'<CR>:set hls<CR>
 
 " Insert current time
 noremap <leader>date :r !date -R <cr> 
