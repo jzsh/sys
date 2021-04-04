@@ -85,6 +85,10 @@ set smartcase
 set clipboard+=unnamed
 
 set mouse=a                             " a:use mouse in all mode
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
 
 set nowrap                              " do not wrap line
 
