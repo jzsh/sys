@@ -72,10 +72,10 @@ EOF
 
 
 clone() {
-	rep="sys vim c mat script"
+	rep="sys snip"
 	for r in $rep; do
 		[ -e ~/git_home/$r ] || {
-			git clone https://guojiangzhe@github.com/guojiangzhe/$r.git ~/git_home/$r
+			git clone https://jzsh@github.com/jzsh/$r.git ~/git_home/$r
 		}
 	done
 	cd ~/git_home/vim; sh ~/git_home/vim/genln;cd -

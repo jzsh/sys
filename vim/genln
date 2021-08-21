@@ -9,4 +9,4 @@ ln -sf `pwd`/.vim $HOME
 #cd -
 
 #vim -es +BundleInstall +qall
-#yes | vim +PluginInstall +qall
+yes | vim +PlugInstall

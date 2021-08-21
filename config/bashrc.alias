@@ -1,3 +1,5 @@
 alias designer='designer-qt4'
 alias vim='vim -X'
 alias vi='vim -X'
+alias ..='cd ..'
+alias ...='cd ../..'
