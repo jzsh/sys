@@ -6,3 +6,8 @@ cp ./git-completion.bash ~/.git-completion.bash
 if [ -f ~/.git-completion.bash ]; then 
 	. ~/.git-completion.bash 
 fi 
+
+## github
+cat ~/.ssh/id_rsa.pub and paste key to github website setting
+change address in .git/config to "ssh://git@github.com/..."
+

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source ~/.bashrc.alias
+
+color_red="\[\e[1;31m\]"
+color_green="\[\e[1;32m\]"
+color_yellow="\[\e[1;33m\]"
+color_end="\[\e[1;0m\]"
+
+PS1="${color_green}\u${color_end}@${color_green}\h${color_end}:\w${color_red}\$${color_end} "
+export PS1

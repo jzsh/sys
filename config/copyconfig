@@ -2,8 +2,10 @@
 
 DIR="$( cd "$( dirname "$0"  )" && pwd  )"
 
-ln -sf $DIR/bashrc.user ~/.bashrc.$USER
-ln -sf $DIR/bashrc.alias ~/.bashrc.alias
+ln -sf $DIR/_bash_profile ~/.bash_profile
+ln -sf $DIR/_bashrc_ubuntu_default ~/.bashrc
+ln -sf $DIR/_bashrc.user ~/.bashrc.$USER
+ln -sf $DIR/_bashrc.alias ~/.bashrc.alias
 
 hasSource=`cat ~/.bashrc | grep "source ~/.bashrc.$USER"`
 [ ! -n "$hasSource" ] && echo "source ~/.bashrc.$USER" >> ~/.bashrc
