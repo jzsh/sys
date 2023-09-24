@@ -1,11 +1,12 @@
-print("using cmp")
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
+  print("require cmp failed!")
   return
 end
 
 local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
+  print("require luasnip failed!")
   return
 end
 

@@ -32,7 +32,10 @@ end
 -- print(vim.fs.find({'README.md'}, { upward = true })[1])
 
 local root_dir = vim.fs.dirname(vim.fs.find({'README.md'}, { upward = true })[1])
-local comp_commands_dir = "--compile-commands-dir=" .. root_dir .. '/build'
+local comp_commands_dir = ""
+if root_dir ~= nil then
+    comp_commands_dir = "--compile-commands-dir=" .. root_dir .. '/build'
+end
 
 lspconfig.clangd.setup{
     cmd = { 'clangd', '--background-index', comp_commands_dir },
@@ -42,4 +45,4 @@ lspconfig.clangd.setup{
 }
 
 
-
+require "user.lsp.null-ls"
