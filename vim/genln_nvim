@@ -1,0 +1,15 @@
+#!/bin/bash
+set -x
+
+# Neovim 配置目录
+NEOVIM_DIR="$(cd "$(dirname "$0")/neovim" && pwd)"
+
+# 创建 neovim 配置目录
+mkdir -p "$HOME/.config/nvim"
+
+# 创建符号链接
+ln -sf "$NEOVIM_DIR/init.lua" "$HOME/.config/nvim/init.lua"
+ln -sf "$NEOVIM_DIR/lua" "$HOME/.config/nvim/lua"
+ln -sf "$NEOVIM_DIR/plugin" "$HOME/.config/nvim/plugin"
+
+echo "Neovim 配置已链接到 ~/.config/nvim/"
